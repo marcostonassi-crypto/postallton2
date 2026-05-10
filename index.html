@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="PostAllTon — Um clique. Todas as redes."/>
+  <title>PostAllTon</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%2307070a'/><rect x='4' y='4' width='56' height='56' fill='none' stroke='%23c9a84c' stroke-width='1' opacity='0.4'/><text x='32' y='42' font-family='Georgia' font-size='20' font-weight='600' fill='%23c9a84c' text-anchor='middle'>PAT</text></svg>"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js" crossorigin></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js" crossorigin></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="react">
+
+
+/* ══════════════════════════════════════════════════════════
+   TRADUÇÕES — PT / EN / ES / FR
+══════════════════════════════════════════════════════════ */
+const LANG_LABELS = { pt:"PT", en:"EN", es:"ES", fr:"FR" };
+
+const T = {
+  pt: {
+    slogan: "Um clique. Todas as redes.",
+    enter: "Acessar o painel",
+    poweredBy: "Powered by Ayrshare API",
+    chooseplan: "Escolha seu plano",
+    monthly: "Mensal",
+    lifetime: "Vitalício",
+    month: "/mês",
+    once: "único",
+    mostPop: "Mais popular",
+    bestVal: "Melhor custo",
+    planCta: "Começar agora",
+    planCtaLife: "Comprar acesso",
+    plans: [
+      { name:"Básico", desc:"Para criadores solo", monthPrice:"R$19", lifePrice:"R$149",
+        features:["3 redes sociais","30 posts/mês","Agendamento básico","Suporte por e-mail"] },
+      { name:"Pro", desc:"Para profissionais", monthPrice:"R$49", lifePrice:"R$349",
+        features:["12 redes sociais","Posts ilimitados","Agendamento avançado","Mídias e links","Histórico completo","Suporte prioritário"], highlight:true },
+      { name:"Business", desc:"Para agências", monthPrice:"R$99", lifePrice:"R$599",
+        features:["Todas as redes","Posts ilimitados","Multi-clientes","API personalizada","Relatórios de alcance","Suporte dedicado"] },
+    ],
+    nav: { setup:"Credenciais", compose:"Nova Publicação", history:"Histórico" },
+    apiKeyLabel: "API Key do Ayrshare",
+    apiKeyPlaceholder: "XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX",
+    confirm: "Confirmar",
+    connected: "API conectada",
+    noConn: "Sem conexão",
+    setupSteps: [
+      { n:"01", title:"Criar conta no Ayrshare", body:"Acesse app.ayrshare.com e registre-se gratuitamente." },
+      { n:"02", title:"Conectar redes sociais", body:"Em Social Accounts, autorize cada rede via OAuth." },
+      { n:"03", title:"Copiar sua API Key", body:"Copie a chave no painel principal do Ayrshare." },
+      { n:"04", title:"Colar abaixo e salvar", body:"Cole a chave e clique em Confirmar para ativar." },
+    ],
+    platforms: "Plataformas",
+    all: "Todas", none: "Nenhuma",
+    selected: "Selecionadas", platform: "plataforma",
+    captionLabel: "Legenda / Mensagem",
+    captionPlaceholder: "Escreva sua legenda, hashtags, emojis…",
+    mediaLabel: "URLs de Mídia — opcional",
+    mediaPlaceholder: "https://dominio.com/foto.jpg, https://dominio.com/video.mp4",
+    mediaHint: "URLs públicas separadas por vírgula. Devem estar hospedadas online.",
+    schedLabel: "Agendar Publicação — opcional",
+    scheduledFor: "Agendado para",
+    publishNow: "Publicar agora em",
+    schedule: "Agendar em",
+    platformLabel: "plataforma",
+    platformsLabel: "plataformas",
+    preview: "Preview",
+    previewEmpty: "Sua legenda aparecerá aqui.",
+    mediaAttached: "arquivo(s) de mídia anexado(s)",
+    historyTitle: "Histórico de Posts",
+    historyDesc: "Posts publicados e agendados via Ayrshare.",
+    historyDescNoKey: "Configure sua API Key para carregar o histórico real.",
+    refresh: "↻ Atualizar",
+    loading: "Carregando do Ayrshare…",
+    noPostsYet: "Nenhum post encontrado.",
+    createFirst: "Criar primeira publicação",
+    noApiWarn: "API Key não configurada.",
+    noApiLink: "Credenciais",
+    noApiRest: "para conectar sua conta Ayrshare.",
+    confirmTitle: "Confirmar",
+    confirmSub: "Publicar em",
+    confirmSub2: "plataforma(s) simultaneamente via Ayrshare API.",
+    publishBtn: "Publicar agora",
+    cancelBtn: "Cancelar",
+    publishing: "Publicando…",
+    publishingSub: "Enviando para",
+    publishingRedes: "redes via Ayrshare",
+    publishedTitle: "Publicado",
+    publishedSub: "Seu conteúdo foi distribuído nas plataformas abaixo.",
+    seePost: "Ver post →",
+    published: "publicado",
+    sent: "enviado",
+    closeBtn: "Fechar",
+    errorTitle: "Falha",
+    errorHint: "Verifique sua API Key e se as contas estão conectadas no painel do Ayrshare.",
+    retryBtn: "Tentar novamente",
+    statusPub: "publicado", statusSched: "agendado",
+    plansBanner: "Planos disponíveis:",
+    plansBannerText: "Gratuito (3 redes, 30 posts/mês) · Pago a partir de R$19/mês para uso ilimitado.",
+    chars: "caracteres",
+  },
+  en: {
+    slogan: "One click. Every network.",
+    enter: "Open the dashboard",
+    poweredBy: "Powered by Ayrshare API",
+    chooseplan: "Choose your plan",
+    monthly: "Monthly",
+    lifetime: "Lifetime",
+    month: "/mo",
+    once: "once",
+    mostPop: "Most popular",
+    bestVal: "Best value",
+    planCta: "Get started",
+    planCtaLife: "Buy access",
+    plans: [
+      { name:"Basic", desc:"For solo creators", monthPrice:"R$19", lifePrice:"R$149",
+        features:["3 social networks","30 posts/month","Basic scheduling","Email support"] },
+      { name:"Pro", desc:"For professionals", monthPrice:"R$49", lifePrice:"R$349",
+        features:["12 social networks","Unlimited posts","Advanced scheduling","Media & links","Full history","Priority support"], highlight:true },
+      { name:"Business", desc:"For agencies", monthPrice:"R$99", lifePrice:"R$599",
+        features:["All networks","Unlimited posts","Multi-client","Custom API","Reach reports","Dedicated support"] },
+    ],
+    nav: { setup:"Credentials", compose:"New Post", history:"History" },
+    apiKeyLabel: "Ayrshare API Key",
+    apiKeyPlaceholder: "XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX",
+    confirm: "Confirm",
+    connected: "API connected",
+    noConn: "Not connected",
+    setupSteps: [
+      { n:"01", title:"Create an Ayrshare account", body:"Visit app.ayrshare.com and sign up for free." },
+      { n:"02", title:"Connect social networks", body:"Under Social Accounts, authorize each network via OAuth." },
+      { n:"03", title:"Copy your API Key", body:"Copy your key from the Ayrshare main dashboard." },
+      { n:"04", title:"Paste below and save", body:"Paste the key and click Confirm to activate." },
+    ],
+    platforms: "Platforms",
+    all: "All", none: "None",
+    selected: "Selected", platform: "platform",
+    captionLabel: "Caption / Message",
+    captionPlaceholder: "Write your caption, hashtags, emojis…",
+    mediaLabel: "Media URLs — optional",
+    mediaPlaceholder: "https://domain.com/photo.jpg, https://domain.com/video.mp4",
+    mediaHint: "Comma-separated public URLs. Files must be hosted online.",
+    schedLabel: "Schedule Post — optional",
+    scheduledFor: "Scheduled for",
+    publishNow: "Publish now to",
+    schedule: "Schedule to",
+    platformLabel: "platform",
+    platformsLabel: "platforms",
+    preview: "Preview",
+    previewEmpty: "Your caption will appear here.",
+    mediaAttached: "media file(s) attached",
+    historyTitle: "Post History",
+    historyDesc: "Posts published and scheduled via Ayrshare.",
+    historyDescNoKey: "Set your API Key to load real history.",
+    refresh: "↻ Refresh",
+    loading: "Loading from Ayrshare…",
+    noPostsYet: "No posts found.",
+    createFirst: "Create first post",
+    noApiWarn: "API Key not configured.",
+    noApiLink: "Credentials",
+    noApiRest: "to connect your Ayrshare account.",
+    confirmTitle: "Confirm",
+    confirmSub: "Publish to",
+    confirmSub2: "platform(s) simultaneously via Ayrshare API.",
+    publishBtn: "Publish now",
+    cancelBtn: "Cancel",
+    publishing: "Publishing…",
+    publishingSub: "Sending to",
+    publishingRedes: "networks via Ayrshare",
+    publishedTitle: "Published",
+    publishedSub: "Your content was distributed to the platforms below.",
+    seePost: "See post →",
+    published: "published",
+    sent: "sent",
+    closeBtn: "Close",
+    errorTitle: "Error",
+    errorHint: "Check your API Key and make sure accounts are connected in Ayrshare.",
+    retryBtn: "Try again",
+    statusPub: "published", statusSched: "scheduled",
+    plansBanner: "Available plans:",
+    plansBannerText: "Free (3 networks, 30 posts/mo) · Paid from R$19/mo for unlimited use.",
+    chars: "characters",
+  },
+  es: {
+    slogan: "Un clic. Todas las redes.",
+    enter: "Abrir el panel",
+    poweredBy: "Powered by Ayrshare API",
+    chooseplan: "Elige tu plan",
+    monthly: "Mensual",
+    lifetime: "Vitalicio",
+    month: "/mes",
+    once: "único",
+    mostPop: "Más popular",
+    bestVal: "Mejor valor",
+    planCta: "Empezar ahora",
+    planCtaLife: "Comprar acceso",
+    plans: [
+      { name:"Básico", desc:"Para creadores solo", monthPrice:"R$19", lifePrice:"R$149",
+        features:["3 redes sociales","30 publicaciones/mes","Programación básica","Soporte por correo"] },
+      { name:"Pro", desc:"Para profesionales", monthPrice:"R$49", lifePrice:"R$349",
+        features:["12 redes sociales","Publicaciones ilimitadas","Programación avanzada","Medios y enlaces","Historial completo","Soporte prioritario"], highlight:true },
+      { name:"Business", desc:"Para agencias", monthPrice:"R$99", lifePrice:"R$599",
+        features:["Todas las redes","Publicaciones ilimitadas","Multi-clientes","API personalizada","Informes de alcance","Soporte dedicado"] },
+    ],
+    nav: { setup:"Credenciales", compose:"Nueva Publicación", history:"Historial" },
+    apiKeyLabel: "API Key de Ayrshare",
+    apiKeyPlaceholder: "XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX",
+    confirm: "Confirmar",
+    connected: "API conectada",
+    noConn: "Sin conexión",
+    setupSteps: [
+      { n:"01", title:"Crear cuenta en Ayrshare", body:"Visita app.ayrshare.com y regístrate gratis." },
+      { n:"02", title:"Conectar redes sociales", body:"En Social Accounts, autoriza cada red vía OAuth." },
+      { n:"03", title:"Copiar tu API Key", body:"Copia la clave desde el panel principal de Ayrshare." },
+      { n:"04", title:"Pegar abajo y guardar", body:"Pega la clave y haz clic en Confirmar para activar." },
+    ],
+    platforms: "Plataformas",
+    all: "Todas", none: "Ninguna",
+    selected: "Seleccionadas", platform: "plataforma",
+    captionLabel: "Leyenda / Mensaje",
+    captionPlaceholder: "Escribe tu leyenda, hashtags, emojis…",
+    mediaLabel: "URLs de Medios — opcional",
+    mediaPlaceholder: "https://dominio.com/foto.jpg, https://dominio.com/video.mp4",
+    mediaHint: "URLs públicas separadas por comas. Deben estar alojadas online.",
+    schedLabel: "Programar Publicación — opcional",
+    scheduledFor: "Programado para",
+    publishNow: "Publicar ahora en",
+    schedule: "Programar en",
+    platformLabel: "plataforma",
+    platformsLabel: "plataformas",
+    preview: "Vista previa",
+    previewEmpty: "Tu leyenda aparecerá aquí.",
+    mediaAttached: "archivo(s) multimedia adjunto(s)",
+    historyTitle: "Historial de Publicaciones",
+    historyDesc: "Posts publicados y programados vía Ayrshare.",
+    historyDescNoKey: "Configura tu API Key para cargar el historial real.",
+    refresh: "↻ Actualizar",
+    loading: "Cargando desde Ayrshare…",
+    noPostsYet: "No se encontraron posts.",
+    createFirst: "Crear primera publicación",
+    noApiWarn: "API Key no configurada.",
+    noApiLink: "Credenciales",
+    noApiRest: "para conectar tu cuenta de Ayrshare.",
+    confirmTitle: "Confirmar",
+    confirmSub: "Publicar en",
+    confirmSub2: "plataforma(s) simultáneamente vía Ayrshare API.",
+    publishBtn: "Publicar ahora",
+    cancelBtn: "Cancelar",
+    publishing: "Publicando…",
+    publishingSub: "Enviando a",
+    publishingRedes: "redes vía Ayrshare",
+    publishedTitle: "Publicado",
+    publishedSub: "Tu contenido fue distribuido en las plataformas abajo.",
+    seePost: "Ver post →",
+    published: "publicado",
+    sent: "enviado",
+    closeBtn: "Cerrar",
+    errorTitle: "Error",
+    errorHint: "Verifica tu API Key y que las cuentas estén conectadas en Ayrshare.",
+    retryBtn: "Intentar de nuevo",
+    statusPub: "publicado", statusSched: "programado",
+    plansBanner: "Planes disponibles:",
+    plansBannerText: "Gratis (3 redes, 30 posts/mes) · Pago desde R$19/mes ilimitado.",
+    chars: "caracteres",
+  },
+  fr: {
+    slogan: "Un clic. Tous les réseaux.",
+    enter: "Ouvrir le tableau de bord",
+    poweredBy: "Powered by Ayrshare API",
+    chooseplan: "Choisissez votre plan",
+    monthly: "Mensuel",
+    lifetime: "À vie",
+    month: "/mois",
+    once: "unique",
+    mostPop: "Le plus populaire",
+    bestVal: "Meilleur rapport",
+    planCta: "Commencer",
+    planCtaLife: "Acheter l'accès",
+    plans: [
+      { name:"Basique", desc:"Pour créateurs solo", monthPrice:"R$19", lifePrice:"R$149",
+        features:["3 réseaux sociaux","30 posts/mois","Planification basique","Support par e-mail"] },
+      { name:"Pro", desc:"Pour les professionnels", monthPrice:"R$49", lifePrice:"R$349",
+        features:["12 réseaux sociaux","Posts illimités","Planification avancée","Médias et liens","Historique complet","Support prioritaire"], highlight:true },
+      { name:"Business", desc:"Pour les agences", monthPrice:"R$99", lifePrice:"R$599",
+        features:["Tous les réseaux","Posts illimités","Multi-clients","API personnalisée","Rapports de portée","Support dédié"] },
+    ],
+    nav: { setup:"Identifiants", compose:"Nouvelle Publication", history:"Historique" },
+    apiKeyLabel: "Clé API Ayrshare",
+    apiKeyPlaceholder: "XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX",
+    confirm: "Confirmer",
+    connected: "API connectée",
+    noConn: "Non connecté",
+    setupSteps: [
+      { n:"01", title:"Créer un compte Ayrshare", body:"Visitez app.ayrshare.com et inscrivez-vous gratuitement." },
+      { n:"02", title:"Connecter les réseaux sociaux", body:"Dans Social Accounts, autorisez chaque réseau via OAuth." },
+      { n:"03", title:"Copier votre clé API", body:"Copiez la clé depuis le tableau de bord principal d'Ayrshare." },
+      { n:"04", title:"Coller ci-dessous et sauvegarder", body:"Collez la clé et cliquez sur Confirmer pour activer." },
+    ],
+    platforms: "Plateformes",
+    all: "Toutes", none: "Aucune",
+    selected: "Sélectionnées", platform: "plateforme",
+    captionLabel: "Légende / Message",
+    captionPlaceholder: "Écrivez votre légende, hashtags, emojis…",
+    mediaLabel: "URLs de Médias — optionnel",
+    mediaPlaceholder: "https://domaine.com/photo.jpg, https://domaine.com/video.mp4",
+    mediaHint: "URLs publiques séparées par des virgules. Les fichiers doivent être hébergés en ligne.",
+    schedLabel: "Planifier la Publication — optionnel",
+    scheduledFor: "Planifié pour",
+    publishNow: "Publier maintenant sur",
+    schedule: "Planifier sur",
+    platformLabel: "plateforme",
+    platformsLabel: "plateformes",
+    preview: "Aperçu",
+    previewEmpty: "Votre légende apparaîtra ici.",
+    mediaAttached: "fichier(s) média joint(s)",
+    historyTitle: "Historique des Publications",
+    historyDesc: "Posts publiés et planifiés via Ayrshare.",
+    historyDescNoKey: "Configurez votre clé API pour charger l'historique réel.",
+    refresh: "↻ Actualiser",
+    loading: "Chargement depuis Ayrshare…",
+    noPostsYet: "Aucun post trouvé.",
+    createFirst: "Créer la première publication",
+    noApiWarn: "Clé API non configurée.",
+    noApiLink: "Identifiants",
+    noApiRest: "pour connecter votre compte Ayrshare.",
+    confirmTitle: "Confirmer",
+    confirmSub: "Publier sur",
+    confirmSub2: "plateforme(s) simultanément via Ayrshare API.",
+    publishBtn: "Publier maintenant",
+    cancelBtn: "Annuler",
+    publishing: "Publication…",
+    publishingSub: "Envoi vers",
+    publishingRedes: "réseaux via Ayrshare",
+    publishedTitle: "Publié",
+    publishedSub: "Votre contenu a été distribué sur les plateformes ci-dessous.",
+    seePost: "Voir le post →",
+    published: "publié",
+    sent: "envoyé",
+    closeBtn: "Fermer",
+    errorTitle: "Erreur",
+    errorHint: "Vérifiez votre clé API et que les comptes sont connectés dans Ayrshare.",
+    retryBtn: "Réessayer",
+    statusPub: "publié", statusSched: "planifié",
+    plansBanner: "Plans disponibles :",
+    plansBannerText: "Gratuit (3 réseaux, 30 posts/mois) · Payant à partir de R$19/mois illimité.",
+    chars: "caractères",
+  },
+};
+
+/* ══════════════════════════════════════════════════════════
+   ÍCONES SVG — logos oficiais de cada rede
+══════════════════════════════════════════════════════════ */
+const ICONS = {
+  instagram: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+  ),
+  facebook: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  ),
+  tiktok: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+    </svg>
+  ),
+  youtube: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+    </svg>
+  ),
+  twitter: (c) => (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill={c}>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+  ),
+  linkedin: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+    </svg>
+  ),
+  telegram: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.820 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+    </svg>
+  ),
+  pinterest: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+    </svg>
+  ),
+  reddit: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+    </svg>
+  ),
+  bluesky: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/>
+    </svg>
+  ),
+  threads: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.952c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.005.213.017.316.026 1.553.143 2.996.732 4.054 1.668 1.209 1.074 1.85 2.542 1.79 4.134-.08 2.021-.87 3.942-2.261 5.404C19.717 23.738 16.48 24 12.186 24zm-2.75-8.696c.883-.048 1.55-.36 1.99-.932.516-.663.762-1.641.728-2.91a11.086 11.086 0 0 0-2.3-.073c-1.739.1-2.708.771-2.652 1.82.037.68.448 1.81 2.234 2.095z"/>
+    </svg>
+  ),
+  snapchat: (c) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill={c}>
+      <path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.512-.104.45 0 .916.195 1.094.465.14.209.14.43.02.67-.173.36-.426.612-1.025.695-.14.03-.282.074-.427.12-.65.244-1.234.731-1.462 1.25-.045.115-.015.195.015.24l.03.045c.9 1.345 2.924 4.47 6.198 5.16.065.014.104.044.09.104-.375 1.061-2.624 1.844-4.783 2.258-.075.017-.104.06-.12.09-.21.24-.315.721-.48 1.365-.03.12-.12.194-.254.194h-.014c-.09 0-.27-.03-.54-.092-.33-.09-.747-.192-1.23-.192-.51 0-.899.12-1.26.239-.869.308-1.664.645-3.07.645-1.391 0-2.326-.33-3.227-.645-.352-.12-.749-.239-1.26-.239-.483 0-.887.092-1.23.193-.27.061-.449.091-.54.091h-.014c-.133 0-.223-.074-.254-.194-.164-.644-.269-1.125-.479-1.365-.016-.03-.045-.073-.12-.09-2.159-.414-4.408-1.197-4.783-2.258-.014-.06.025-.09.09-.104 3.273-.69 5.298-3.815 6.197-5.16l.03-.045c.03-.045.06-.125.015-.24-.228-.519-.812-1.006-1.462-1.25-.144-.046-.286-.09-.427-.12-.6-.083-.852-.334-1.025-.695-.12-.24-.12-.461.02-.67.18-.27.645-.465 1.094-.465.168 0 .347.016.512.104.374.181.732.285 1.033.301.197 0 .326-.045.401-.09l-.031-.57c-.103-1.628-.229-3.654.3-4.847C7.86 1.07 11.216.793 12.206.793z"/>
+    </svg>
+  ),
+};
+
+/* componente de ícone — usa SVG real ou fallback em texto */
+function NetIcon({ id, color, size = 22, muted = false }) {
+  const fn = ICONS[id];
+  const c = muted ? "var(--muted)" : color;
+  if (!fn) return <span style={{fontSize:10,fontWeight:800,color:c,letterSpacing:.5}}>{id.slice(0,2).toUpperCase()}</span>;
+  return <span style={{display:"flex",alignItems:"center",justifyContent:"center",width:size,height:size,opacity: muted ? 0.35 : 1, transition:"opacity .2s"}}>{fn(c)}</span>;
+}
+
+/* ══════════════════════════════════════════════════════════
+   DADOS
+══════════════════════════════════════════════════════════ */
+const NETWORKS = [
+  { id:"instagram", name:"Instagram",   color:"#E1306C" },
+  { id:"facebook",  name:"Facebook",    color:"#1877F2" },
+  { id:"tiktok",    name:"TikTok",      color:"#ff2d55" },
+  { id:"youtube",   name:"YouTube",     color:"#FF0000" },
+  { id:"twitter",   name:"X / Twitter", color:"#e7e9ea" },
+  { id:"linkedin",  name:"LinkedIn",    color:"#0A66C2" },
+  { id:"telegram",  name:"Telegram",    color:"#229ED9" },
+  { id:"pinterest", name:"Pinterest",   color:"#E60023" },
+  { id:"reddit",    name:"Reddit",      color:"#FF4500" },
+  { id:"bluesky",   name:"Bluesky",     color:"#0085ff" },
+  { id:"threads",   name:"Threads",     color:"#cccccc" },
+  { id:"snapchat",  name:"Snapchat",    color:"#FFFC00" },
+];
+
+/* ══════════════════════════════════════════════════════════
+   API
+══════════════════════════════════════════════════════════ */
+async function publishToAyrshare({ apiKey, post, platforms, mediaUrls, scheduleDate }) {
+  const body = { post, platforms };
+  if (mediaUrls?.length) body.mediaUrls = mediaUrls;
+  if (scheduleDate) body.scheduleDate = scheduleDate;
+  const res = await fetch("https://app.ayrshare.com/api/post", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json", "Authorization":`Bearer ${apiKey}` },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.message||`HTTP ${res.status}`); }
+  return res.json();
+}
+async function fetchHistory(apiKey) {
+  const res = await fetch("https://app.ayrshare.com/api/history?platform=all",{
+    headers:{ "Authorization":`Bearer ${apiKey}` },
+  });
+  if (!res.ok) throw new Error("Failed to load history");
+  return res.json();
+}
+
+/* ══════════════════════════════════════════════════════════
+   CSS GLOBAL
+══════════════════════════════════════════════════════════ */
+const GLOBAL_CSS = `
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Syne:wght@400;500;600;700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07070a;--surface:#0f0f12;--border:#1e1e24;--border2:#2a2a32;
+  --gold:#c9a84c;--gold-dim:#6b5520;--amber:#f59e0b;
+  --text:#e8e6e0;--muted:#5a5854;--muted2:#8a8680;
+  --green:#4ade80;--red:#f87171;
+  --font-d:'Cormorant Garamond',Georgia,serif;
+  --font-ui:'Syne',system-ui,sans-serif;
+  --sw:224px;
+}
+html,body,#root{height:100%;background:var(--bg);color:var(--text)}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:var(--border2)}
+input,textarea,button{font-family:var(--font-ui)}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── ANIMAÇÕES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes landingIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pillIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+@keyframes rotateSlow{to{transform:rotate(360deg)}}
+
+/* ── LANDING ── */
+.landing{
+  min-height:100vh;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.landing-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 100%);
+}
+.landing-glow{
+  position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);
+  width:700px;height:700px;
+  background:radial-gradient(ellipse,rgba(201,168,76,.07) 0%,transparent 68%);
+  pointer-events:none;
+}
+.landing-inner{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:40px 24px;
+  animation:landingIn .8s cubic-bezier(.16,1,.3,1) both;
+}
+
+/* emblem */
+.logo-emblem{
+  width:84px;height:84px;
+  border:1px solid rgba(201,168,76,.25);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:28px;position:relative;
+}
+.logo-emblem::before{
+  content:'';position:absolute;inset:-1px;
+  border:1px solid transparent;border-top-color:var(--gold);
+  animation:rotateSlow 3s linear infinite;
+}
+.logo-emblem-inner{
+  width:66px;height:66px;
+  border:1px solid rgba(201,168,76,.12);
+  display:flex;align-items:center;justify-content:center;
+}
+.logo-sigla{
+  font-family:var(--font-d);font-size:20px;font-weight:600;
+  color:var(--gold);letter-spacing:3px;
+}
+.landing-wordmark{
+  font-family:var(--font-d);
+  font-size:clamp(52px,9vw,96px);
+  font-weight:500;letter-spacing:-2px;line-height:.95;
+  color:var(--text);margin-bottom:4px;
+}
+.landing-wordmark span{color:var(--gold);font-style:italic}
+.landing-slogan{
+  font-size:clamp(10px,1.4vw,12px);letter-spacing:4px;
+  text-transform:uppercase;color:var(--muted2);margin-top:18px;
+}
+.landing-slogan strong{color:var(--gold);font-weight:700}
+
+/* ornamento */
+.orn{display:flex;align-items:center;gap:16px;width:300px;margin:36px 0}
+.orn-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim))}
+.orn-line.r{background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.orn-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 10px var(--gold)}
+
+/* pills */
+.landing-nets{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:7px;
+  max-width:460px;margin-bottom:12px;
+}
+.net-pill{
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  padding:5px 11px;border:1px solid var(--border2);
+  color:var(--muted);font-weight:700;transition:all .2s;
+  animation:pillIn .5s ease both;cursor:default;
+}
+.net-pill:hover{border-color:var(--gold-dim);color:var(--gold)}
+
+/* lang switcher landing */
+.lang-bar{
+  display:flex;gap:8px;margin-bottom:40px;
+}
+.lang-btn{
+  padding:6px 14px;background:transparent;
+  border:1px solid var(--border2);color:var(--muted);
+  font-size:10px;letter-spacing:2px;font-weight:700;
+  cursor:pointer;transition:all .2s;font-family:var(--font-ui);
+}
+.lang-btn:hover,.lang-btn.active{border-color:var(--gold-dim);color:var(--gold);background:rgba(201,168,76,.05)}
+
+/* CTA */
+.btn-cta{
+  display:flex;align-items:center;gap:12px;
+  padding:18px 52px;background:var(--gold);color:#07070a;
+  font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;
+  border:none;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;
+}
+.btn-cta::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  transform:translateX(-100%);transition:transform .5s;
+}
+.btn-cta:hover{background:var(--amber);transform:translateY(-2px);box-shadow:0 14px 40px rgba(201,168,76,.3)}
+.btn-cta:hover::after{transform:translateX(100%)}
+.landing-foot{
+  font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:14px;opacity:.6;
+}
+.landing-footer-bar{
+  position:absolute;bottom:24px;left:0;right:0;
+  display:flex;justify-content:center;gap:32px;z-index:2;
+}
+.landing-footer-bar span{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);opacity:.4}
+
+/* ── PLANS PAGE ── */
+.plans-page{
+  min-height:100vh;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;
+  padding:60px 20px 80px;position:relative;overflow:hidden;
+  animation:fadeUp .5s ease both;
+}
+.plans-page .landing-grid{opacity:.5}
+.plans-back{
+  position:absolute;top:28px;left:32px;
+  background:transparent;border:1px solid var(--border2);
+  color:var(--muted2);font-size:11px;letter-spacing:1.5px;
+  text-transform:uppercase;padding:8px 16px;cursor:pointer;
+  transition:all .2s;font-family:var(--font-ui);
+}
+.plans-back:hover{border-color:var(--gold-dim);color:var(--gold)}
+.plans-title{
+  font-family:var(--font-d);font-size:clamp(36px,5vw,56px);
+  font-weight:500;color:var(--text);letter-spacing:-1px;
+  margin-bottom:8px;text-align:center;
+}
+.plans-title span{color:var(--gold);font-style:italic}
+.plans-subtitle{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:36px}
+
+/* toggle mensal/vitalício */
+.billing-toggle{
+  display:flex;align-items:center;gap:0;
+  border:1px solid var(--border2);margin-bottom:52px;
+}
+.billing-btn{
+  padding:10px 28px;background:transparent;border:none;
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);cursor:pointer;transition:all .2s;font-family:var(--font-ui);
+}
+.billing-btn.active{background:var(--gold);color:#07070a}
+
+/* cards */
+.plans-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);
+  max-width:900px;width:100%;
+  border:1px solid var(--border);
+}
+@media(max-width:720px){.plans-grid{grid-template-columns:1fr;gap:0}}
+.plan-card{
+  background:var(--surface);padding:36px 28px;
+  display:flex;flex-direction:column;gap:0;
+  position:relative;transition:background .2s;
+}
+.plan-card.highlight{background:#0c0c0e}
+.plan-card:hover{background:#111116}
+.plan-badge{
+  position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:#07070a;
+  font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  padding:4px 14px;white-space:nowrap;
+}
+.plan-name{
+  font-family:var(--font-d);font-size:28px;font-weight:500;
+  color:var(--text);margin-bottom:2px;
+}
+.plan-card.highlight .plan-name{color:var(--gold)}
+.plan-desc{font-size:11px;color:var(--muted);letter-spacing:.5px;margin-bottom:28px}
+.plan-price{
+  font-family:var(--font-d);font-size:48px;font-weight:400;
+  color:var(--text);line-height:1;margin-bottom:4px;
+}
+.plan-price-sub{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:28px}
+.plan-divider{height:1px;background:var(--border);margin-bottom:24px}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px;flex:1}
+.plan-feat{
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;color:var(--muted2);line-height:1.4;
+}
+.feat-check{
+  width:14px;height:14px;flex-shrink:0;
+  border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;
+  font-size:8px;color:var(--gold);
+}
+.plan-cta{
+  padding:14px;border:none;
+  font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;width:100%;font-family:var(--font-ui);
+}
+.plan-cta-default{background:transparent;border:1px solid var(--border2);color:var(--muted2)}
+.plan-cta-default:hover{border-color:var(--gold-dim);color:var(--gold)}
+.plan-cta-highlight{background:var(--gold);color:#07070a}
+.plan-cta-highlight:hover{background:var(--amber)}
+
+/* ── APP SHELL ── */
+.app-shell{display:flex;min-height:100vh}
+.sidebar{
+  width:var(--sw);min-height:100vh;background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:50;padding:32px 0;
+}
+.sidebar-logo{padding:0 26px 28px;border-bottom:1px solid var(--border)}
+.logo-mark{
+  font-family:var(--font-d);font-size:24px;font-weight:500;letter-spacing:-.5px;
+  color:var(--text);display:flex;align-items:center;gap:10px;line-height:1;
+}
+.logo-dot{width:7px;height:7px;background:var(--gold);border-radius:50%;box-shadow:0 0 10px var(--gold);flex-shrink:0}
+.logo-sub{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-top:6px;padding-left:17px}
+.nav-list{padding:20px 0;list-style:none;flex:1}
+.nav-item{position:relative}
+.nav-btn{
+  width:100%;display:flex;align-items:center;gap:12px;
+  padding:10px 26px;background:none;border:none;
+  color:var(--muted);font-size:11px;font-weight:500;letter-spacing:.5px;
+  cursor:pointer;transition:color .2s;text-align:left;
+}
+.nav-btn:hover{color:var(--text)}
+.nav-btn.active{color:var(--gold)}
+.nav-icon{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.nav-bar{position:absolute;right:0;top:50%;transform:translateY(-50%);width:2px;height:16px;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+
+/* lang + status footer */
+.sidebar-footer{padding:18px 26px 0;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:14px}
+.api-status{display:flex;align-items:center;gap:8px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background .3s}
+.status-dot.live{background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+.lang-footer{display:flex;gap:4px}
+.lang-footer-btn{
+  padding:4px 8px;background:transparent;border:1px solid transparent;
+  color:var(--muted);font-size:9px;letter-spacing:1.5px;font-weight:700;
+  cursor:pointer;transition:all .15s;font-family:var(--font-ui);
+}
+.lang-footer-btn:hover,.lang-footer-btn.active{border-color:var(--gold-dim);color:var(--gold)}
+
+/* main */
+.main{margin-left:var(--sw);flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{
+  padding:26px 44px 18px;display:flex;align-items:flex-end;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.page-title{font-family:var(--font-d);font-size:30px;font-weight:500;letter-spacing:-.5px;line-height:1}
+.page-title em{font-style:italic;color:var(--gold)}
+.page-date{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.content{padding:36px 44px;flex:1;animation:fadeUp .3s ease both}
+
+/* section label */
+.sec-label{
+  font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);
+  margin-bottom:14px;display:flex;align-items:center;gap:10px;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* panel */
+.panel{background:var(--surface);border:1px solid var(--border);padding:26px 30px;margin-bottom:20px}
+.panel-gold{border-color:var(--gold-dim);background:linear-gradient(135deg,#0c0a05,#0f0f0a)}
+
+/* network grid */
+.net-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:7px}
+.net-card{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:13px 6px;background:var(--bg);border:1px solid var(--border);
+  cursor:pointer;transition:all .18s;position:relative;overflow:hidden;
+}
+.net-card:hover{border-color:var(--border2)}
+.net-card.sel{border-color:var(--gold-dim) !important;background:rgba(201,168,76,.04)}
+.net-glyph{font-size:10px;font-weight:800;letter-spacing:.5px}
+.net-name{font-size:9px;letter-spacing:.3px;color:var(--muted);text-align:center;line-height:1.2;font-weight:500}
+.net-chk{position:absolute;top:4px;right:5px;font-size:7px;color:var(--gold);opacity:0;transition:opacity .15s}
+.net-card.sel .net-chk{opacity:1}
+
+/* inputs */
+.field-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:10px}
+.textarea-f{
+  width:100%;background:var(--bg);border:1px solid var(--border);
+  color:var(--text);font-size:14px;line-height:1.7;padding:14px 16px;
+  resize:vertical;min-height:120px;outline:none;transition:border-color .2s;letter-spacing:.2px;
+}
+.textarea-f:focus{border-color:var(--gold-dim)}
+.textarea-f::placeholder{color:var(--muted)}
+.input-f{
+  width:100%;background:var(--bg);border:1px solid var(--border);
+  color:var(--text);font-size:13px;padding:12px 16px;
+  outline:none;transition:border-color .2s;-webkit-appearance:none;color-scheme:dark;
+}
+.input-f:focus{border-color:var(--gold-dim)}
+.input-f::placeholder{color:var(--muted)}
+.char-count{font-size:10px;color:var(--muted);text-align:right;margin-top:6px}
+
+/* buttons */
+.btn-primary{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:16px;background:var(--gold);color:#07070a;
+  font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
+  border:none;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
+}
+.btn-primary:hover{background:var(--amber)}
+.btn-primary:disabled{background:var(--border2);color:var(--muted);cursor:not-allowed}
+.btn-ghost{
+  padding:11px 20px;background:transparent;border:1px solid var(--border2);
+  color:var(--muted2);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;
+}
+.btn-ghost:hover{border-color:var(--gold-dim);color:var(--gold)}
+.btn-small{
+  padding:6px 14px;background:transparent;border:1px solid var(--border);
+  color:var(--muted);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;
+}
+.btn-small:hover,.btn-small.active{border-color:var(--gold-dim);color:var(--gold);background:rgba(201,168,76,.05)}
+
+/* notice */
+.notice{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;border-left:2px solid var(--gold-dim);background:rgba(201,168,76,.04);margin-bottom:20px}
+.notice-warn{border-color:#7a4a00;background:rgba(245,158,11,.04)}
+.notice-err{border-color:var(--red);background:rgba(248,113,113,.05)}
+.notice p{font-size:12px;line-height:1.6}
+
+/* setup steps */
+.steps{display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:38px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{font-family:var(--font-d);font-size:26px;font-weight:400;color:var(--gold-dim);line-height:1;padding-top:2px}
+.step-content h3{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;letter-spacing:.3px}
+.step-content p{font-size:11px;color:var(--muted2);line-height:1.6}
+
+/* compose grid */
+.compose-grid{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+.compose-side{position:sticky;top:20px}
+.sel-count{font-family:var(--font-d);font-size:44px;font-weight:400;color:var(--gold);line-height:1}
+.sel-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.sel-divider{height:1px;background:var(--border);margin:14px 0}
+.sel-list{display:flex;flex-direction:column;gap:6px;max-height:180px;overflow-y:auto}
+.sel-item{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted2)}
+.sel-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* history */
+.hist-item{padding:18px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start}
+.hist-item:last-child{border-bottom:none}
+.hist-cap{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:9px}
+.hist-tags{display:flex;flex-wrap:wrap;gap:5px}
+.hist-tag{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border:1px solid var(--border2);color:var(--muted2)}
+.hist-meta{text-align:right}
+.hist-date{font-size:10px;color:var(--muted);letter-spacing:.5px}
+.badge{display:inline-block;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;margin-bottom:5px}
+.badge-pub{background:rgba(74,222,128,.08);color:#4ade80;border:1px solid #4ade8030}
+.badge-sched{background:rgba(245,158,11,.08);color:#f59e0b;border:1px solid #f59e0b30}
+
+/* modal */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.88);
+  display:flex;align-items:center;justify-content:center;
+  z-index:200;backdrop-filter:blur(6px);animation:fadeIn .2s ease;
+}
+.modal{
+  background:var(--surface);border:1px solid var(--border2);
+  width:90%;max-width:420px;padding:34px;
+  animation:slideUp .22s ease;box-shadow:0 40px 100px rgba(0,0,0,.8);
+}
+.modal-title{font-family:var(--font-d);font-size:26px;font-weight:500;margin-bottom:6px}
+.modal-sub{font-size:12px;color:var(--muted2);margin-bottom:22px;line-height:1.5}
+.modal-plats{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:22px;padding:14px;background:var(--bg);border:1px solid var(--border)}
+.plat-pill{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border:1px solid;font-weight:700}
+.modal-actions{display:flex;gap:10px;margin-top:22px}
+.modal-actions .btn-ghost{flex:1}
+.modal-actions .btn-primary{flex:2}
+.result-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
+.result-row:last-child{border-bottom:none}
+.result-glyph{font-size:9px;font-weight:800;width:26px;text-align:center;flex-shrink:0;letter-spacing:.5px}
+.result-name{flex:1;color:var(--muted2)}
+.result-ok{color:var(--green);font-size:10px;letter-spacing:1px}
+.result-err{color:var(--red);font-size:10px}
+.result-link{color:var(--gold);font-size:10px;text-decoration:none}
+.result-link:hover{text-decoration:underline}
+.pub-state{text-align:center;padding:28px 0}
+.spinner{width:34px;height:34px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 18px}
+
+@media(max-width:860px){
+  .compose-grid{grid-template-columns:1fr}
+  .compose-side{position:static}
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .topbar,.content{padding-left:22px;padding-right:22px}
+  .plans-grid{grid-template-columns:1fr}
+}
+`;
+
+/* ══════════════════════════════════════════════════════════
+   COMPONENTE MODAL
+══════════════════════════════════════════════════════════ */
+function PublishModal({ apiKey, networks, caption, mediaUrls, scheduleDate, t, onClose, onSuccess }) {
+  const [state, setState] = useState("confirm");
+  const [results, setResults] = useState({});
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handlePublish = async () => {
+    setState("publishing");
+    try {
+      const data = await publishToAyrshare({
+        apiKey, post: caption,
+        platforms: networks.map(n => n.id),
+        mediaUrls, scheduleDate,
+      });
+      const res = {};
+      (data.postIds||[]).forEach(p => { res[p.platform] = { ok:true,  url:p.postUrl }; });
+      (data.errors ||[]).forEach(e => { res[e.platform]  = { ok:false, msg:e.message }; });
+      setResults(res);
+      setState("done");
+      onSuccess?.(data);
+    } catch(e) {
+      setErrorMsg(e.message);
+      setState("error");
+    }
+  };
+
+  return (
+    <div className="modal-bg" onClick={e => e.target===e.currentTarget && onClose()}>
+      <div className="modal">
+        {state==="confirm" && (<>
+          <div className="modal-title">{t.confirmTitle}</div>
+          <div className="modal-sub">
+            {t.confirmSub} <strong style={{color:"var(--gold)"}}>{networks.length}</strong> {t.confirmSub2}
+          </div>
+          {scheduleDate && (
+            <div className="notice" style={{marginBottom:14,padding:"10px 14px"}}>
+              <p style={{fontSize:11}}>{t.scheduledFor}: <strong>{new Date(scheduleDate).toLocaleString()}</strong></p>
+            </div>
+          )}
+          <div className="modal-plats">
+            {networks.map(n => (
+              <span key={n.id} className="plat-pill" style={{borderColor:n.color+"44",color:n.color,display:"flex",alignItems:"center",gap:5}}>
+                <NetIcon id={n.id} color={n.color} size={13}/>
+                <span style={{fontSize:8,letterSpacing:1.5,fontWeight:700,textTransform:"uppercase"}}>{n.name}</span>
+              </span>
+            ))}
+          </div>
+          <div className="modal-actions">
+            <button className="btn-ghost" onClick={onClose}>{t.cancelBtn}</button>
+            <button className="btn-primary" onClick={handlePublish}>{t.publishBtn}</button>
+          </div>
+        </>)}
+
+        {state==="publishing" && (
+          <div className="pub-state">
+            <div className="spinner"/>
+            <div style={{fontFamily:"var(--font-d)",fontSize:22,marginBottom:6}}>{t.publishing}</div>
+            <div style={{fontSize:11,color:"var(--muted)"}}>{t.publishingSub} {networks.length} {t.publishingRedes}</div>
+          </div>
+        )}
+
+        {state==="done" && (<>
+          <div className="modal-title" style={{color:"var(--gold)"}}>{t.publishedTitle}</div>
+          <div className="modal-sub">{t.publishedSub}</div>
+          <div style={{borderTop:"1px solid var(--border)",marginBottom:20}}>
+            {networks.map(n => {
+              const r = results[n.id];
+              return (
+                <div key={n.id} className="result-row">
+                  <span className="result-glyph"><NetIcon id={n.id} color={n.color} size={16}/></span>
+                  <span className="result-name">{n.name}</span>
+                  {r?.ok
+                    ? r.url
+                      ? <a href={r.url} target="_blank" rel="noreferrer" className="result-link">{t.seePost}</a>
+                      : <span className="result-ok">✓ {t.published}</span>
+                    : r?.msg
+                      ? <span className="result-err">✗ {r.msg}</span>
+                      : <span className="result-ok">✓ {t.sent}</span>
+                  }
+                </div>
+              );
+            })}
+          </div>
+          <button className="btn-primary" onClick={onClose}>{t.closeBtn}</button>
+        </>)}
+
+        {state==="error" && (<>
+          <div className="modal-title" style={{color:"var(--red)"}}>{t.errorTitle}</div>
+          <div className="notice notice-err" style={{marginBottom:14}}>
+            <p><strong>{errorMsg}</strong></p>
+          </div>
+          <p style={{fontSize:11,color:"var(--muted)",marginBottom:18,lineHeight:1.6}}>{t.errorHint}</p>
+          <div className="modal-actions">
+            <button className="btn-ghost" onClick={onClose}>{t.closeBtn}</button>
+            <button className="btn-primary" onClick={()=>setState("confirm")}>{t.retryBtn}</button>
+          </div>
+        </>)}
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   LANDING PAGE
+══════════════════════════════════════════════════════════ */
+function LandingPage({ lang, setLang, t, onEnter, onPlans }) {
+  return (
+    <div className="landing">
+      <div className="landing-grid"/>
+      <div className="landing-glow"/>
+      <div className="landing-inner">
+        {/* seletor de idioma */}
+        <div className="lang-bar">
+          {Object.entries(LANG_LABELS).map(([k,v]) => (
+            <button key={k} className={`lang-btn${lang===k?" active":""}`} onClick={()=>setLang(k)}>{v}</button>
+          ))}
+        </div>
+
+        {/* logomarca */}
+        <div className="logo-emblem">
+          <div className="logo-emblem-inner">
+            <span className="logo-sigla">PAT</span>
+          </div>
+        </div>
+        <h1 className="landing-wordmark">PostAll<span>Ton</span></h1>
+        <p className="landing-slogan">
+          {t.slogan.split(".").map((s,i,arr) => (
+            <span key={i}>{i===0 ? <strong>{s}.</strong> : s}{i<arr.length-2?".":""}</span>
+          ))}
+        </p>
+
+        {/* ornamento */}
+        <div className="orn">
+          <div className="orn-line"/><div className="orn-diamond"/><div className="orn-line r"/>
+        </div>
+
+        {/* redes */}
+        <div className="landing-nets">
+          {NETWORKS.map((n,i) => (
+            <span key={n.id} className="net-pill"
+              style={{animationDelay:`${i*.04}s`,borderColor:n.color+"35",display:"flex",alignItems:"center",gap:6,color:n.color}}>
+              <NetIcon id={n.id} color={n.color} size={14}/>
+              <span style={{fontSize:9,letterSpacing:2,fontWeight:700,textTransform:"uppercase"}}>{n.name}</span>
+            </span>
+          ))}
+        </div>
+
+        {/* CTAs */}
+        <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:12,marginTop:32}}>
+          <button className="btn-cta" onClick={onEnter}>
+            <span>◈</span>{t.enter}
+          </button>
+          <button
+            onClick={onPlans}
+            style={{background:"transparent",border:"1px solid var(--border2)",color:"var(--muted2)",
+              fontFamily:"var(--font-ui)",fontSize:"10px",letterSpacing:"2px",textTransform:"uppercase",
+              padding:"10px 28px",cursor:"pointer",transition:"all .2s"}}
+            onMouseOver={e=>{e.target.style.borderColor="var(--gold-dim)";e.target.style.color="var(--gold)"}}
+            onMouseOut={e=>{e.target.style.borderColor="var(--border2)";e.target.style.color="var(--muted2)"}}
+          >
+            {t.chooseplan}
+          </button>
+          <p className="landing-foot">{t.poweredBy}</p>
+        </div>
+      </div>
+
+      <div className="landing-footer-bar">
+        <span>PostAllTon</span>
+        <span>{t.slogan}</span>
+        <span>© 2026</span>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   PÁGINA DE PLANOS
+══════════════════════════════════════════════════════════ */
+function PlansPage({ t, onBack, onSelect }) {
+  const [billing, setBilling] = useState("monthly");
+  return (
+    <div className="plans-page">
+      <div className="landing-grid" style={{opacity:.4}}/>
+      <button className="plans-back" onClick={onBack}>← {t.nav.setup}</button>
+
+      <h2 className="plans-title" style={{marginTop:20}}>
+        {t.chooseplan.split(" ").map((w,i) => i===1
+          ? <span key={i}> <em style={{fontStyle:"italic",color:"var(--gold)"}}>{w}</em></span>
+          : <span key={i}>{w} </span>
+        )}
+      </h2>
+      <p className="plans-subtitle">{t.poweredBy}</p>
+
+      {/* toggle */}
+      <div className="billing-toggle">
+        <button className={`billing-btn${billing==="monthly"?" active":""}`} onClick={()=>setBilling("monthly")}>
+          {t.monthly}
+        </button>
+        <button className={`billing-btn${billing==="lifetime"?" active":""}`} onClick={()=>setBilling("lifetime")}>
+          {t.lifetime}
+        </button>
+      </div>
+
+      {/* cards */}
+      <div className="plans-grid">
+        {t.plans.map((plan, i) => (
+          <div key={i} className={`plan-card${plan.highlight?" highlight":""}`}>
+            {plan.highlight && (
+              <div className="plan-badge">{billing==="monthly" ? t.mostPop : t.bestVal}</div>
+            )}
+            <div className="plan-name">{plan.name}</div>
+            <div className="plan-desc">{plan.desc}</div>
+            <div className="plan-price">
+              {billing==="monthly" ? plan.monthPrice : plan.lifePrice}
+            </div>
+            <div className="plan-price-sub">
+              {billing==="monthly" ? t.month : t.once}
+            </div>
+            <div className="plan-divider"/>
+            <ul className="plan-features">
+              {plan.features.map((f,j) => (
+                <li key={j} className="plan-feat">
+                  <div className="feat-check">✦</div>
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <button
+              className={`plan-cta ${plan.highlight?"plan-cta-highlight":"plan-cta-default"}`}
+              onClick={() => onSelect(plan, billing)}
+            >
+              {billing==="monthly" ? t.planCta : t.planCtaLife}
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   APP PRINCIPAL
+══════════════════════════════════════════════════════════ */
+export default function App() {
+  const [lang, setLang]           = useState("pt");
+  const [screen, setScreen]       = useState("landing"); // landing | plans | app
+  const [tab, setTab]             = useState("setup");
+  const [apiKey, setApiKey]       = useState("");
+  const [apiSaved, setApiSaved]   = useState(false);
+  const [selected, setSelected]   = useState(new Set(NETWORKS.map(n=>n.id)));
+  const [caption, setCaption]     = useState("");
+  const [mediaUrls, setMediaUrls] = useState("");
+  const [schedDate, setSchedDate] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [posts, setPosts]         = useState([]);
+  const [histLoad, setHistLoad]   = useState(false);
+  const [histError, setHistError] = useState("");
+
+  const t = T[lang];
+  const toggle = id => setSelected(s => { const n=new Set(s); n.has(id)?n.delete(id):n.add(id); return n; });
+  const selNets   = NETWORKS.filter(n => selected.has(n.id));
+  const mediaArr  = mediaUrls.split(",").map(s=>s.trim()).filter(Boolean);
+  const canPublish = apiSaved && caption.trim() && selected.size>0;
+  const today     = new Date().toLocaleDateString(
+    lang==="pt"?"pt-BR":lang==="es"?"es-ES":lang==="fr"?"fr-FR":"en-US",
+    {weekday:"long",day:"numeric",month:"long",year:"numeric"}
+  );
+
+  const pageTitles = {
+    setup:   <><em>{t.nav.setup.split(" ")[0]}</em>{t.nav.setup.includes(" ")?" "+t.nav.setup.split(" ").slice(1).join(" "):""}</>,
+    compose: <><em>{t.nav.compose.split(" ")[0]}</em>{" "+t.nav.compose.split(" ").slice(1).join(" ")}</>,
+    history: <><em>{t.nav.history}</em></>,
+  };
+
+  const loadHistory = async () => {
+    if (!apiKey) return;
+    setHistLoad(true); setHistError("");
+    try {
+      const data = await fetchHistory(apiKey);
+      setPosts((data.history||[]).map(h=>({
+        id: h.id||Math.random(),
+        caption: h.post||"(sem legenda)",
+        networks: h.platforms||[],
+        date: h.created ? new Date(h.created).toLocaleString() : "–",
+        status: h.status==="scheduled" ? "agendado" : "publicado",
+      })));
+    } catch(e) { setHistError(e.message); }
+    finally { setHistLoad(false); }
+  };
+
+  const handleSuccess = data => {
+    setPosts(p => [{
+      id: data.id||Date.now(), caption,
+      networks: [...selected],
+      date: new Date().toLocaleString(),
+      status: schedDate ? "agendado" : "publicado",
+    }, ...p]);
+    setCaption(""); setMediaUrls(""); setSchedDate(""); setShowModal(false);
+  };
+
+  /* ── CSS global ── */
+  useEffect(() => {
+    const s = document.createElement("style");
+    s.textContent = GLOBAL_CSS;
+    document.head.appendChild(s);
+    return () => document.head.removeChild(s);
+  }, []);
+
+  /* ── TELAS ── */
+  if (screen==="landing")
+    return <LandingPage lang={lang} setLang={setLang} t={t}
+      onEnter={()=>setScreen("app")} onPlans={()=>setScreen("plans")} />;
+
+  if (screen==="plans")
+    return <PlansPage t={t} onBack={()=>setScreen("landing")}
+      onSelect={(_plan,_billing)=>setScreen("app")} />;
+
+  /* ── APP SHELL ── */
+  const NAV = [
+    { id:"setup",   icon:"◈", label: t.nav.setup   },
+    { id:"compose", icon:"✦", label: t.nav.compose  },
+    { id:"history", icon:"◇", label: t.nav.history  },
+  ];
+
+  return (
+    <div className="app-shell">
+      {/* SIDEBAR */}
+      <aside className="sidebar">
+        <div className="sidebar-logo">
+          <div className="logo-mark">
+            <div className="logo-dot"/>
+            PostAll<em style={{fontStyle:"italic",color:"var(--gold)"}}>Ton</em>
+          </div>
+          <div className="logo-sub">Powered by Ayrshare</div>
+        </div>
+
+        <ul className="nav-list">
+          {NAV.map(n => (
+            <li key={n.id} className="nav-item">
+              <button className={`nav-btn${tab===n.id?" active":""}`}
+                onClick={()=>{ setTab(n.id); if(n.id==="history") loadHistory(); }}>
+                <span className="nav-icon">{n.icon}</span>{n.label}
+              </button>
+              {tab===n.id && <div className="nav-bar"/>}
+            </li>
+          ))}
+        </ul>
+
+        <div className="sidebar-footer">
+          <div className="api-status">
+            <div className={`status-dot${apiSaved?" live":""}`}/>
+            {apiSaved ? t.connected : t.noConn}
+          </div>
+          {/* seletor de idioma */}
+          <div className="lang-footer">
+            {Object.entries(LANG_LABELS).map(([k,v]) => (
+              <button key={k} className={`lang-footer-btn${lang===k?" active":""}`}
+                onClick={()=>setLang(k)}>{v}</button>
+            ))}
+          </div>
+        </div>
+      </aside>
+
+      {/* MAIN */}
+      <main className="main">
+        <div className="topbar">
+          <h1 className="page-title">{pageTitles[tab]}</h1>
+          <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6}}>
+            <div className="page-date">{today}</div>
+            <button onClick={()=>setScreen("landing")}
+              style={{background:"transparent",border:"1px solid var(--border)",color:"var(--muted)",
+                fontSize:"9px",letterSpacing:"1.5px",textTransform:"uppercase",padding:"4px 10px",
+                cursor:"pointer",fontFamily:"var(--font-ui)"}}>
+              ← Home
+            </button>
+          </div>
+        </div>
+
+        <div className="content" key={tab}>
+
+          {/* ══ SETUP ══ */}
+          {tab==="setup" && (<>
+            <div className="panel panel-gold">
+              <div className="sec-label">Como começar</div>
+              <div className="steps">
+                {t.setupSteps.map(s => (
+                  <div key={s.n} className="step">
+                    <div className="step-num">{s.n}</div>
+                    <div className="step-content">
+                      <h3>{s.title}</h3>
+                      <p>{s.body}{s.n==="01" && <> — <a href="https://app.ayrshare.com" target="_blank" rel="noreferrer">app.ayrshare.com</a></>}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="panel">
+              <label className="field-lbl">{t.apiKeyLabel}</label>
+              <div style={{display:"flex",gap:10,marginBottom:apiSaved?10:0}}>
+                <input type="password" className="input-f" value={apiKey}
+                  onChange={e=>{setApiKey(e.target.value);setApiSaved(false);}}
+                  placeholder={t.apiKeyPlaceholder}
+                  style={{flex:1,borderColor:apiSaved?"var(--gold-dim)":undefined}}
+                />
+                <button className="btn-ghost"
+                  style={{whiteSpace:"nowrap",borderColor:apiKey?"var(--gold-dim)":undefined,color:apiKey?"var(--gold)":undefined}}
+                  onClick={()=>{ if(apiKey.trim()){setApiSaved(true);setTimeout(()=>setTab("compose"),500);} }}>
+                  {t.confirm}
+                </button>
+              </div>
+              {apiSaved && <p style={{fontSize:11,color:"var(--green)",letterSpacing:"1px"}}>✓ {t.connected}</p>}
+            </div>
+
+            <div className="notice notice-warn">
+              <p><strong>{t.plansBanner}</strong> {t.plansBannerText}</p>
+            </div>
+          </>)}
+
+          {/* ══ COMPOSE ══ */}
+          {tab==="compose" && (<>
+            {!apiSaved && (
+              <div className="notice notice-warn">
+                <p><strong>{t.noApiWarn}</strong>{" "}
+                  <span style={{color:"var(--gold)",cursor:"pointer",textDecoration:"underline"}} onClick={()=>setTab("setup")}>{t.noApiLink}</span>
+                  {" "}{t.noApiRest}
+                </p>
+              </div>
+            )}
+
+            <div className="compose-grid">
+              <div>
+                {/* Redes */}
+                <div className="panel">
+                  <div className="sec-label" style={{marginBottom:14}}>
+                    {t.platforms}
+                    <div style={{display:"flex",gap:6,marginLeft:"auto"}}>
+                      <button className={`btn-small${selected.size===NETWORKS.length?" active":""}`}
+                        onClick={()=>setSelected(new Set(NETWORKS.map(n=>n.id)))}>{t.all}</button>
+                      <button className="btn-small" onClick={()=>setSelected(new Set())}>{t.none}</button>
+                    </div>
+                  </div>
+                  <div className="net-grid">
+                    {NETWORKS.map(net => (
+                      <div key={net.id} className={`net-card${selected.has(net.id)?" sel":""}`} onClick={()=>toggle(net.id)}>
+                        <span className="net-chk">✦</span>
+                        <NetIcon id={net.id} color={net.color} size={24} muted={!selected.has(net.id)}/>
+                        <span className="net-name">{net.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Legenda */}
+                <div className="panel">
+                  <label className="field-lbl">{t.captionLabel}</label>
+                  <textarea className="textarea-f" value={caption}
+                    onChange={e=>setCaption(e.target.value)} placeholder={t.captionPlaceholder}/>
+                  <div className="char-count">{caption.length} / 2200 {t.chars}</div>
+                </div>
+
+                {/* Mídia */}
+                <div className="panel">
+                  <label className="field-lbl">{t.mediaLabel}</label>
+                  <p style={{fontSize:11,color:"var(--muted)",marginBottom:10,lineHeight:1.6}}>{t.mediaHint}</p>
+                  <input className="input-f" value={mediaUrls} onChange={e=>setMediaUrls(e.target.value)} placeholder={t.mediaPlaceholder}/>
+                </div>
+
+                {/* Agendamento */}
+                <div className="panel">
+                  <label className="field-lbl">{t.schedLabel}</label>
+                  <input type="datetime-local" className="input-f" value={schedDate}
+                    onChange={e=>setSchedDate(e.target.value)}/>
+                  {schedDate && <p style={{fontSize:11,color:"var(--amber)",marginTop:8}}>{t.scheduledFor}: {new Date(schedDate).toLocaleString()}</p>}
+                </div>
+
+                <button className="btn-primary" disabled={!canPublish} onClick={()=>canPublish&&setShowModal(true)}>
+                  <span>◈</span>
+                  {schedDate
+                    ? `${t.schedule} ${selected.size} ${selected.size===1?t.platformLabel:t.platformsLabel}`
+                    : `${t.publishNow} ${selected.size} ${selected.size===1?t.platformLabel:t.platformsLabel}`}
+                </button>
+              </div>
+
+              {/* Preview sidebar */}
+              <div className="compose-side">
+                <div className="panel" style={{marginBottom:14}}>
+                  <div className="sec-label">{t.selected}</div>
+                  <div className="sel-count">{selected.size}</div>
+                  <div className="sel-lbl">{selected.size===1?t.platformLabel:t.platformsLabel}</div>
+                  <div className="sel-divider"/>
+                  <div className="sel-list">
+                    {selNets.length===0
+                      ? <p style={{fontSize:11,color:"var(--muted)"}}>{t.none}</p>
+                      : selNets.map(n => (
+                        <div key={n.id} className="sel-item">
+                          <NetIcon id={n.id} color={n.color} size={14}/>
+                          <span>{n.name}</span>
+                        </div>
+                      ))
+                    }
+                  </div>
+                </div>
+                <div className="panel">
+                  <div className="sec-label">{t.preview}</div>
+                  {caption
+                    ? <p style={{fontSize:13,color:"var(--text)",lineHeight:1.6,wordBreak:"break-word"}}>
+                        {caption.slice(0,160)}{caption.length>160?"…":""}
+                      </p>
+                    : <p style={{fontSize:12,color:"var(--muted)",fontStyle:"italic"}}>{t.previewEmpty}</p>
+                  }
+                  {mediaArr.length>0 && (
+                    <div style={{marginTop:10,fontSize:11,color:"var(--muted)",borderTop:"1px solid var(--border)",paddingTop:8}}>
+                      {mediaArr.length} {t.mediaAttached}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </>)}
+
+          {/* ══ HISTORY ══ */}
+          {tab==="history" && (<>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
+              <p style={{fontSize:12,color:"var(--muted)"}}>
+                {apiSaved ? t.historyDesc : t.historyDescNoKey}
+              </p>
+              <button className="btn-ghost" onClick={loadHistory} disabled={!apiKey}>{t.refresh}</button>
+            </div>
+
+            {histLoad && (
+              <div style={{textAlign:"center",padding:50}}>
+                <div className="spinner"/>
+                <p style={{fontSize:12,color:"var(--muted)"}}>{t.loading}</p>
+              </div>
+            )}
+            {histError && (
+              <div className="notice notice-err"><p><strong>{histError}</strong></p></div>
+            )}
+            {!histLoad && !histError && posts.length===0 && (
+              <div className="panel" style={{textAlign:"center",padding:"50px 20px"}}>
+                <div style={{fontFamily:"var(--font-d)",fontSize:36,color:"var(--border2)",marginBottom:12}}>◇</div>
+                <p style={{fontSize:13,color:"var(--muted)",marginBottom:18}}>{t.noPostsYet}</p>
+                <button className="btn-ghost" onClick={()=>setTab("compose")}>{t.createFirst}</button>
+              </div>
+            )}
+
+            {posts.length>0 && (
+              <div className="panel">
+                {posts.map(post => (
+                  <div key={post.id} className="hist-item">
+                    <div>
+                      <p className="hist-cap">
+                        {post.caption.length>130 ? post.caption.slice(0,130)+"…" : post.caption}
+                      </p>
+                      <div className="hist-tags">
+                        {(post.networks||[]).slice(0,8).map(nid => {
+                          const net = NETWORKS.find(n=>n.id===nid);
+                          return (
+                            <span key={nid} className="hist-tag"
+                              style={{borderColor:net?net.color+"33":"var(--border2)",display:"flex",alignItems:"center",gap:4}}>
+                              <NetIcon id={nid} color={net?.color||"var(--muted2)"} size={11}/>
+                              <span style={{color:net?.color||"var(--muted2)",fontSize:9,letterSpacing:1.5,fontWeight:700,textTransform:"uppercase"}}>{net?.name||nid}</span>
+                            </span>
+                          );
+                        })}
+                        {(post.networks||[]).length>8 && <span className="hist-tag">+{post.networks.length-8}</span>}
+                      </div>
+                    </div>
+                    <div className="hist-meta">
+                      <span className={`badge badge-${post.status==="publicado"||post.status==="published"||post.status==="publié"||post.status==="publicado"?"pub":"sched"}`}>
+                        {post.status==="publicado"?t.statusPub:post.status==="agendado"?t.statusSched:post.status}
+                      </span>
+                      <div className="hist-date">{post.date}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>)}
+
+        </div>
+      </main>
+
+      {showModal && (
+        <PublishModal
+          apiKey={apiKey} networks={selNets} caption={caption}
+          mediaUrls={mediaArr} scheduleDate={schedDate?new Date(schedDate).toISOString():null}
+          t={t} onClose={()=>setShowModal(false)} onSuccess={handleSuccess}
+        />
+      )}
+    </div>
+  );
+}
+
+const { useState, useEffect } = React;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(App));
+  </script>
+</body>
+</html>
